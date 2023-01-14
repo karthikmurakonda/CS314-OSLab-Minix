@@ -127,6 +127,8 @@ int do_fork()
   if (rmc->mp_tracer != NO_TRACER)
 	sig_proc(rmc, SIGSTOP, TRUE /*trace*/, FALSE /* ksig */);
 
+  printf("Minix: PID %d created", rmc->mp_pid);
+
   /* Do not reply until VFS is ready to process the fork
   * request
   */
