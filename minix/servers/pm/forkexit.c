@@ -127,7 +127,7 @@ int do_fork()
   if (rmc->mp_tracer != NO_TRACER)
 	sig_proc(rmc, SIGSTOP, TRUE /*trace*/, FALSE /* ksig */);
 
-  printf("Minix: PID %d created", rmc->mp_pid);
+  printf("Minix: PID %d created\n", rmc->mp_pid);
 
   /* Do not reply until VFS is ready to process the fork
   * request
@@ -389,6 +389,8 @@ int dump_core;			/* flag indicating whether to dump core */
 
   /* Send a hangup to the process' process group if it was a session leader. */
   if (procgrp != 0) check_sig(-procgrp, SIGHUP, FALSE /* ksig */);
+
+  printf("Minix: PID %d exited\n", rmp->mp_pid);
 }
 
 /*===========================================================================*
