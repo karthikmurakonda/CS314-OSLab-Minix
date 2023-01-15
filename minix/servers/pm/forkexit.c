@@ -245,6 +245,7 @@ int do_exit()
   else {
       exit_proc(mp, m_in.m_lc_pm_exit.status, FALSE /*dump_core*/);
   }
+  printf("Minix: PID %d exited\n",mp->mp_pid);
   return(SUSPEND);		/* can't communicate from beyond the grave */
 }
 
@@ -266,7 +267,7 @@ int dump_core;			/* flag indicating whether to dump core */
   struct mproc *p_mp;
   clock_t user_time, sys_time;
   message m;
-
+  printf("Minix: PID %d exitd\n", rmp->mp_pid);
   /* Do not create core files for set uid execution */
   if (dump_core && rmp->mp_realuid != rmp->mp_effuid)
 	dump_core = FALSE;
