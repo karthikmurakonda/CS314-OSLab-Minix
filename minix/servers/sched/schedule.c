@@ -324,6 +324,8 @@ static int schedule_process(struct schedproc * rmp, unsigned flags)
 		printf("PM: An error occurred when trying to schedule %d: %d\n",
 		rmp->endpoint, err);
 	}
+	if (_ENDPOINT_P(rmp->endpoint)>=0)
+		printf("200010030 Minix: PID %d swapped in.\n", _ENDPOINT_P(rmp->endpoint));
 
 	return err;
 }
