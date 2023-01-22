@@ -239,9 +239,6 @@ int do_start_scheduling(message *m_ptr)
 		return rv;
 	}
 
-	if (_ENDPOINT_P(rmp->endpoint)>=0)
-		printf("200010030 Minix: PID %d swapped in.\n", _ENDPOINT_P(rmp->endpoint));
-
 	/* Mark ourselves as the new scheduler.
 	 * By default, processes are scheduled by the parents scheduler. In case
 	 * this scheduler would want to delegate scheduling to another
@@ -327,6 +324,9 @@ static int schedule_process(struct schedproc * rmp, unsigned flags)
 		printf("PM: An error occurred when trying to schedule %d: %d\n",
 		rmp->endpoint, err);
 	}
+
+	if (err == OK && _ENDPOINT_P(rmp->endpoint)>=0)
+		printf("200010030 Minix: PID %d swapped in.\n", _ENDPOINT_P(rmp->endpoint));
 
 	return err;
 }
