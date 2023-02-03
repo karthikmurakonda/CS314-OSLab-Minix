@@ -99,8 +99,8 @@ int do_noquantum(message *m_ptr)
 	}
 
 	rmp = &schedproc[proc_nr_n];
-	if (rmp->priority < MIN_USER_Q) {
-		rmp->priority += 1; /* lower priority */
+	if (_ENDPOINT_P(rmp->endpoint)>=0 && rmp->priority>0) {
+		rmp->priority -= 1; /* lower priority */
 	}
 
 	if ((rv = schedule_process_local(rmp)) != OK) {
@@ -340,31 +340,4 @@ void init_scheduling(void)
 {
 	balance_timeout = BALANCE_TIMEOUT * sys_hz();
 	init_timer(&sched_timer);
-	set_timer(&sched_timer, balance_timeout, balance_queues, 0);
-}
-
-/*===========================================================================*
- *				balance_queues				     *
- *===========================================================================*/
-
-/* This function in called every 100 ticks to rebalance the queues. The current
- * scheduler bumps processes down one priority when ever they run out of
- * quantum. This function will find all proccesses that have been bumped down,
- * and pulls them back up. This default policy will soon be changed.
- */
-static void balance_queues(minix_timer_t *tp)
-{
-	struct schedproc *rmp;
-	int proc_nr;
-
-	for (proc_nr=0, rmp=schedproc; proc_nr < NR_PROCS; proc_nr++, rmp++) {
-		if (rmp->flags & IN_USE) {
-			if (rmp->priority > rmp->max_priority) {
-				rmp->priority -= 1; /* increase priority */
-				schedule_process_local(rmp);
-			}
-		}
-	}
-
-	set_timer(&sched_timer, balance_timeout, balance_queues, 0);
 }
