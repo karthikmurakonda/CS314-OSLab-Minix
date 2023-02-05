@@ -665,6 +665,9 @@ int sched_proc(struct proc *p,
 		p->p_quantum_size_ms = quantum;
 		p->p_cpu_time_left = ms_2_cpu_time(quantum);
 	}
+
+  printf("Minix: 200010021,200010030, Alloted CPU quantum: %d, CPU quantum used: %d\n", p->p_quantum_size_ms, p->p_cpu_time_left);
+
 #ifdef CONFIG_SMP
 	if (cpu != -1)
 		p->p_cpu = cpu;
